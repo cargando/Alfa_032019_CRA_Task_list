@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from '../card';
 import {MainTab} from "../../scenes/main";
+import Modal from "../modals/simple_modal";
 
 export default class MainList extends React.Component {
 
@@ -28,9 +29,9 @@ export default class MainList extends React.Component {
 	renderOneTask = (item) => {
 
 		return (
-			<li class="list-group-item" style={ { position: "relative" } }>
+			<li key={ item.id } className="list-group-item" style={ { position: "relative" } }>
 				{
-					item.taskUrgent && (<i class="text-danger fa fa-exclamation-triangle" />)
+					item.taskUrgent && (<i className="text-danger fa fa-exclamation-triangle" />)
 				}
 				<a
 					href="#"
@@ -40,7 +41,7 @@ export default class MainList extends React.Component {
 					{ item.taskName }
 				</a>
 				<br />
-				<span class="text-muted">
+				<span className="text-muted">
 					<small>
 						{ item.taskDate }
 			    </small>
@@ -89,6 +90,7 @@ export default class MainList extends React.Component {
 				{
 					this.props.children // компоненты "дети", которые были переданы внутрь <MainList>....</MainList>
 				}
+				<Modal title="Some title" display />
 			</Card>);
 
 	}
