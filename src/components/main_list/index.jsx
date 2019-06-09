@@ -3,19 +3,42 @@ import PropTypes from 'prop-types';
 import { Card } from '../card';
 import {MainTab} from "../../scenes/main";
 import Modal from "../modals/simple_modal";
+import ViewTaskModal from "../task/view_task_modal";
 
 export default class MainList extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array, // список задач длдя рендера
+
 	};
 
 	static defaultTypes = {
 		data: [],
 	};
 
-	handleViewTask = (e) => {
+	constructor(props) {
+		super(props);
+		this.state = {
+			modalFlag: false,
+			taskId: null,
+		}
+	}
 
+	handleCloseModal = () => {
+		this.setState({
+			modalFlag: false,
+			taskId: null,
+		})
+	};
+
+	handleViewTask = (e) => {
+		const { target } = e;
+		const taskId = target.getAttribute("data-id");
+
+		this.setState({
+			taskId,
+			modalFlag: true,
+		})
 	};
 
 	handleEditTask = (e) => {
@@ -26,17 +49,17 @@ export default class MainList extends React.Component {
 
 	};
 
-	renderOneTask = (item) => {
+	renderOneTask = (item, index) => {
 
 		return (
-			<li key={ item.id } className="list-group-item" style={ { position: "relative" } }>
+			<li key={ index } className="list-group-item" style={ { position: "relative" } }>
 				{
 					item.taskUrgent && (<i className="text-danger fa fa-exclamation-triangle" />)
 				}
 				<a
 					href="#"
 					onClick={ this.handleViewTask }
-					data-id={ item.id }
+					data-id={ index }
 				>
 					{ item.taskName }
 				</a>
@@ -48,14 +71,14 @@ export default class MainList extends React.Component {
 				</span>
 
 				<span
-					data-id={ item.id }
+					data-id={ index }
 					className="delete_ico"
 					onClick={ this.handleDeleteTask }
 				>
 					<i className="fa fa-times"/>
 				</span>
 				<span
-					data-id={ item.id }
+					data-id={ index }
 					className="edit_ico"
 					onClick={ this.handleEditTask }
 				>
@@ -67,8 +90,8 @@ export default class MainList extends React.Component {
 		)
 	};
 
-	render() {
 
+	render() {
 		const emptyList = (
 			<li className="list-group-item">
 				<span className="text-secondary">Список задач пуст</span>
@@ -90,7 +113,15 @@ export default class MainList extends React.Component {
 				{
 					this.props.children // компоненты "дети", которые были переданы внутрь <MainList>....</MainList>
 				}
-				<Modal title="Some title" display />
+				<Modal
+					title="Some title"
+					onCancelClick={ this.handleCloseModal }
+					display={ this.state.modalFlag }
+				>
+					<ViewTaskModal
+						data={ this.props.data ? this.props.data[(this.state.taskId)] : null }
+					/>
+				</Modal>
 			</Card>);
 
 	}

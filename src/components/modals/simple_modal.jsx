@@ -9,10 +9,19 @@ const Modal = (props) => {
 		onCancelClick: handleCancel,
 		children,
 		cancelBtn = "Cancel",
-		actionBtn = "Ok",
+		actionBtn,
 		display = false,
 	} = props;
-	console.log("Modal: ", display)
+
+	const actionButton = (actionBtn && typeof onActionClick === "function") && (
+		<button
+			onClick={ handleAction }
+			type="button"
+			className="btn btn-primary"
+		>
+			{ actionBtn }
+		</button>);
+
 	return display && (
 		<div id="modal1" className="modal" tabIndex="-1" role="dialog" style={ {display: "block"} }>
 			<div className="modal-dialog modal-lg" role="document">
@@ -38,13 +47,9 @@ const Modal = (props) => {
 						>
 							{ cancelBtn }
 						</button>
-						<button
-							onClick={ handleAction }
-							type="button"
-							className="btn btn-primary"
-						>
-							{ actionBtn }
-						</button>
+						{
+							actionButton
+						}
 					</div>
 				</div>
 			</div>
