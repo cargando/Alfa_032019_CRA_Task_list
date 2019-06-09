@@ -4,7 +4,7 @@ import './App.css';
 import Navigation from './components/nav';
 import { NAV_ITEMS, NAV_MAIN } from './lib/nav_data';
 import { MainTab } from './scenes/main';
-
+import "./calendar.css";
 
 class App extends React.Component {
 
@@ -15,6 +15,16 @@ class App extends React.Component {
 			activeNavItem: NAV_MAIN
 		}
 
+	}
+
+	componentDidMount() {
+		let taskList = [];
+		try {
+			taskList = JSON.parse(localStorage.getItem("TASKS"));
+		} catch (e) {
+			console.log("Couldn't init JSON from Local Storage: ", e.message);
+		}
+		this.setState({ taskList })
 	}
 
 	navHelper = () => {
@@ -44,7 +54,9 @@ class App extends React.Component {
 					<h1>CRA Task List</h1>
 					<Navigation items={ this.navHelper() } />
 					<br />
-					<MainTab />
+					<MainTab
+						taskList={ this.state.taskList }
+					/>
 
 				</div>
 			</React.Fragment>

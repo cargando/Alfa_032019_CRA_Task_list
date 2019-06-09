@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MainForm from '../components/main_form';
 import MainList from '../components/main_list';
 
-export const MainTab = () => {
+export const MainTab = (props) => {
 
 	return (
 		<div className="row">
@@ -13,8 +13,14 @@ export const MainTab = () => {
 				</MainForm>
 			</div>
 			<div className="col-sm-6">
-				<MainList />
+				<MainList
+					data={ props.taskList }
+				/>
 			</div>
 		</div>
 	);
+};
+
+MainTab.propTypes = {
+	taskList: PropTypes.array, // список задач
 };

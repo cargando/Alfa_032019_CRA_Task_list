@@ -20,7 +20,7 @@ export default class MainForm extends React.Component {
 		const { name } = target;
 
 		const value = target.type === 'checkbox' ? target.checked : target.value;
-	
+
 		this.setState((prevState) => ({
 			data: {
 				...prevState.data,
