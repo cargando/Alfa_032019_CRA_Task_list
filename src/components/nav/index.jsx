@@ -6,12 +6,17 @@ const renderNavItem = (item) => {
 		title,
 		onClick,
 		isActive = false,
+		name,
 	} = item;
 
 	return (
 		<a
+			role="button"
+			key={ name }
 			onClick={ onClick }
 			className={ `nav-item nav-link ${ isActive ? "active" : "" }` }
+			data-name={ name }
+			style={ { cursor: "pointer" } }
 		>
 			{ title }
 		</a>
