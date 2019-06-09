@@ -9,6 +9,7 @@ export default class MainForm extends React.Component {
 	static propTypes = {
 		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
 		taskForEdit: PropTypes.object, // номер таски, которую редактируют
+		onSaveData: PropTypes.func,
 	};
 
 
@@ -22,11 +23,12 @@ export default class MainForm extends React.Component {
 		}
 	}
 
-	static getDerivedStateFromProps = (nextProps, state) =>{
-		console.log("getDerivedStateFromProps = ", nextProps.taskForEdit)
+	static getDerivedStateFromProps(nextProps, state) {
+
 		if (!state.propsFlag && nextProps.taskForEdit) {
 			return {
 				data: nextProps.taskForEdit,
+				propsFlag: true,
 			}
 		}
 		return null;
@@ -46,8 +48,14 @@ export default class MainForm extends React.Component {
 		}));
 	};
 
+	handleSaveData = (e) => {
+		if ( this.props.onSaveData(this.state.data) === true) {
+			this.setState({ data: {}});
+		}
+	};
+
 	render() {
-		console.log("RND ", this.state.data)
+
 		return (
 			<Card>
 				<h4>
@@ -101,7 +109,7 @@ export default class MainForm extends React.Component {
 					<div className="col-sm-6">
 						<button
 							id="actionButton"
-							onClick="handleAddTask();"
+							onClick={ this.handleSaveData }
 							type="button"
 							className="btn btn-primary"
 						>
@@ -113,7 +121,7 @@ export default class MainForm extends React.Component {
 					<div className="col-sm-6">
 						<button
 							id="cancelButton"
-							onClick="handleClearForm()"
+							onClick={ this.handleResetData }
 							type="button"
 							className="btn btn-secondary"
 						>

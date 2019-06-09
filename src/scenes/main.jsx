@@ -11,6 +11,7 @@ export const MainTab = (props) => {
 				<MainForm
 					taskForEdit={ props.taskForEdit }
 					formSate={ props.formSate }
+					onSaveData={ props.onSaveData }
 				>
 					<p>This is children from Main Tab</p>
 				</MainForm>
@@ -30,6 +31,7 @@ MainTab.propTypes = {
 	taskList: PropTypes.array, // список задач
 	onTaskEdit: PropTypes.func, // редактировать таску
 	onTaskDelete: PropTypes.func, // удалить таску
+	onSaveData: PropTypes.func, // сохранить изменения данных (не важно это режим редактирование или добавление)
 	formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
 	taskForEdit: PropTypes.object, // номер таски, которую редактируют
 };

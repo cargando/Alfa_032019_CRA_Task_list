@@ -18,20 +18,7 @@ class App extends React.Component {
 			taskForEdit: null,
 			formSate: FORM_ADD, // ["add", "edit"]
 		}
-
-	}
-
-	handleEditTask = (e, taskId) => {
-		console.log("this is from App, id = ", taskId);
-		const { taskList } = this.state;
-		this.setState({
-			taskForEdit: taskList[taskId],
-			formSate: FORM_EDIT,
-		});
-	};
-
-	handleDeleteTask(e, taskId) {
-		console.log("this is DELETE from App, id = ", taskId);
+		// this.handleDeleteTask = this.handleDeleteTask.bind(this);
 	}
 
 	componentDidMount() {
@@ -42,7 +29,48 @@ class App extends React.Component {
 			console.log("Couldn't init JSON from Local Storage: ", e.message);
 		}
 		this.setState({ taskList })
+
+		// document.addEventListener("keydown", this.handleDeleteTask);
 	}
+
+
+	handleEditTask = (e, taskId) => {
+		console.log("this is from App, id = ", taskId);
+		const { taskList } = this.state;
+		this.setState({
+			taskId,
+			taskForEdit: taskList[taskId],
+			formSate: FORM_EDIT,
+		});
+	};
+
+	handleDeleteTask(e, taskId) {
+		console.log("this is DELETE from App, id = ", taskId);
+		const { taskList } = this.state;
+		taskList.splice(taskId, 1);
+		this.setState({
+			taskList,
+		});
+	}
+
+	handleSaveFormData = (data) => {
+		const { taskList } = this.state;
+		if (this.state.formSate === FORM_ADD) {
+			taskList.push(data);
+		} else {
+			taskList[(this.state.taskId)] = { ...data };
+		}
+		this.setState({
+			taskList,
+			taskId: null,
+			taskForEdit: null,
+			formSate: FORM_ADD,
+		});
+
+		localStorage.setItem("TASKS", JSON.stringify(taskList));
+
+		return true;
+	};
 
 	navHelper = () => {
 		return NAV_ITEMS.map((item) => {
@@ -75,8 +103,9 @@ class App extends React.Component {
 						taskForEdit={ this.state.taskForEdit }
 						formSate={ this.state.formSate }
 						taskList={ this.state.taskList }
-						onTaskDelete={ this.handleDeleteTask }
+						onTaskDelete={ this.handleDeleteTask.bind(this) }
 						onTaskEdit={ this.handleEditTask }
+						onSaveData={ this.handleSaveFormData }
 					/>
 
 				</div>

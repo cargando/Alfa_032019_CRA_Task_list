@@ -186,3 +186,6 @@
 .dragable-task {
 	cursor: pointer;
 }
+.task-edit-one {
+	background-color: #ffc04c;
+}
