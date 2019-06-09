@@ -9,7 +9,8 @@ export default class MainList extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array, // список задач длдя рендера
-
+		onTaskEdit: PropTypes.func,
+		onTaskDelete: PropTypes.func,
 	};
 
 	static defaultTypes = {
@@ -22,6 +23,7 @@ export default class MainList extends React.Component {
 			modalFlag: false,
 			taskId: null,
 		}
+		console.log("MainList =", this.props)
 	}
 
 	handleCloseModal = () => {
@@ -42,11 +44,17 @@ export default class MainList extends React.Component {
 	};
 
 	handleEditTask = (e) => {
-
+		e.persist();  // конвертировать событие реакт (Syntetic Event) в нормальное событие ДОМ (Event)
+		const { target } = e;
+		const taskId = target.parentElement.getAttribute("data-id");
+		this.props.onTaskEdit(e, taskId);
 	};
 
 	handleDeleteTask = (e) => {
-
+		e.persist();  // конвертировать событие реакт (Syntetic Event) в нормальное событие ДОМ (Event)
+		const { target } = e;
+		const taskId = target.parentElement.getAttribute("data-id");
+		this.props.onTaskDelete(e, taskId);
 	};
 
 	renderOneTask = (item, index) => {
@@ -54,7 +62,10 @@ export default class MainList extends React.Component {
 		return (
 			<li key={ index } className="list-group-item" style={ { position: "relative" } }>
 				{
-					item.taskUrgent && (<i className="text-danger fa fa-exclamation-triangle" />)
+					item.taskUrgent && (<React.Fragment>
+						<i className="text-danger fa fa-exclamation-triangle" />
+						&nbsp;
+						</React.Fragment>)
 				}
 				<a
 					href="#"

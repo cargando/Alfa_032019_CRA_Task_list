@@ -1,8 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Navigation from './components/nav';
 import { NAV_ITEMS, NAV_MAIN } from './lib/nav_data';
+import { FORM_ADD, FORM_EDIT } from './lib/const';
 import { MainTab } from './scenes/main';
 import "./calendar.css";
 
@@ -12,9 +12,26 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
-			activeNavItem: NAV_MAIN
+			activeNavItem: NAV_MAIN,
+			taskList: [],
+			taskId: null,
+			taskForEdit: null,
+			formSate: FORM_ADD, // ["add", "edit"]
 		}
 
+	}
+
+	handleEditTask = (e, taskId) => {
+		console.log("this is from App, id = ", taskId);
+		const { taskList } = this.state;
+		this.setState({
+			taskForEdit: taskList[taskId],
+			formSate: FORM_EDIT,
+		});
+	};
+
+	handleDeleteTask(e, taskId) {
+		console.log("this is DELETE from App, id = ", taskId);
 	}
 
 	componentDidMount() {
@@ -55,7 +72,11 @@ class App extends React.Component {
 					<Navigation items={ this.navHelper() } />
 					<br />
 					<MainTab
+						taskForEdit={ this.state.taskForEdit }
+						formSate={ this.state.formSate }
 						taskList={ this.state.taskList }
+						onTaskDelete={ this.handleDeleteTask }
+						onTaskEdit={ this.handleEditTask }
 					/>
 
 				</div>

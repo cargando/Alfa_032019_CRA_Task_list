@@ -37,7 +37,7 @@ const TextArea = (props) => {
 				onChange={ onChange }
 				name={ name }
 				placeholder={ placeHolder || label}
-				defaultValue={ value }
+				value={ value }
 				{ ...colsRows }
 			/>
 			<small className={ `form-text ${ err && "text-danger" }`}>{ helper }</small>

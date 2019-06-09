@@ -32,7 +32,7 @@ const Select = (props) => {
 	} = props;
 
 	const mandatoryStr = mandatory && (<span className="text-danger">*</span>);
-
+	console.log("SELECT ", value)
 	return (
 		<div className="form-group">
 			<label htmlFor={ name } className={ err ? "text-danger" : null }>
@@ -45,7 +45,7 @@ const Select = (props) => {
 				className="form-control"
 				name={ name }
 				placeholder={ placeHolder || label}
-				value={ value }
+				value={ value.toLocaleUpperCase() }
 			>
 				{
 					options.map(renderSelectOptions)
