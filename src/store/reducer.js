@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 import * as ACT from './actions';
 
 const initialState = { // GLOBAL STORE - первичная инициализация, т.е. как выглядит стор на этапе первого рендера прилаги
@@ -6,6 +7,7 @@ const initialState = { // GLOBAL STORE - первичная инициализа
 };
 
 function rootReducer(store = initialState, action) {
+	console.log("action", action)
 	switch (action.type) {
 		case ACT.DATA_TASK_EDIT:
 			return { ...store, ...action.payload }; // новый объект STORE (GLOBAL REDUX STORE)
@@ -24,8 +26,8 @@ function rootReducer(store = initialState, action) {
 	}
 }
 
-export default combineReducers({
-	app: rootReducer,
-	// user: userReducer,
 
-})
+export default (history) => combineReducers({
+	router: connectRouter(history),
+	app: rootReducer,
+});

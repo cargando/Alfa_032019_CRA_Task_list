@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Card } from '../card';
 import {MainTab} from "../../scenes/main";
 import Modal from "../modals/simple_modal";
 import ViewTaskModal from "../task/view_task_modal";
 
-export default class MainList extends React.Component {
+class MainList extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array, // список задач длдя рендера
@@ -24,6 +25,17 @@ export default class MainList extends React.Component {
 			taskId: null,
 		}
 		console.log("MainList =", this.props)
+	}
+
+	componentDidMount() {
+		let taskList = [];
+		try {
+			taskList = JSON.parse(localStorage.getItem("TASKS"));
+		} catch (e) {
+			console.log("Couldn't init JSON from Local Storage: ", e.message);
+		}
+		this.setState({ taskList })
+
 	}
 
 	handleCloseModal = () => {
@@ -137,3 +149,11 @@ export default class MainList extends React.Component {
 
 	}
 }
+
+const mapStateToProps = (store) => {
+		return {
+			taskList: [...store.app.taskList], //
+		}
+};
+
+	export default connect(mapStateToProps)(MainList);

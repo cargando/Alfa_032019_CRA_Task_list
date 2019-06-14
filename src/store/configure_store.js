@@ -1,27 +1,29 @@
+import { createBrowserHistory } from 'history'
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
-import rootReducer from './reducer';
-import { deleteMiddleware } from './middleware';
+import { routerMiddleware } from 'connected-react-router'
+// import { assignAll } from 'redux-act';
+import * as actions from './actions';
+import createRootReducer from './reducer';
 
-const logger = createLogger({
-	// ...options
-});
+export const history = createBrowserHistory();
 
 
-const configureStore = (middleware, initialState) => {
-	let store = {};
-	if (process.env.NODE_ENV === 'development') {
-		const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;//  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-		store = createStore(
-			rootReducer,
-			composeEnhancer(applyMiddleware(thunkMiddleware, middleware, /* logger, */ deleteMiddleware))
-		);
-	} else {
-		store = createStore(rootReducer, applyMiddleware(thunkMiddleware, middleware, deleteMiddleware));
-	}
+// const OldConfigureStore = createStore(rootReducer);
 
-	return store;
-};
 
-export default configureStore;
+export default function configureStore(preloadedState) {
+	const store = createStore(
+		createRootReducer(history),
+		preloadedState,
+		compose(
+			applyMiddleware(
+				routerMiddleware(history),
+				// ... other middlewares ...
+			),
+		),
+	);
+
+	// assignAll(actions, store);
+
+	return store
+}
