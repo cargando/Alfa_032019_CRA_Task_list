@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import * as appActions from '../../store/action_creators';
 import { Card } from '../card';
 import {MainTab} from "../../scenes/main";
 import Modal from "../modals/simple_modal";
@@ -10,13 +11,15 @@ class MainList extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array, // список задач длдя рендера
+		taskList: PropTypes.array, // список задач длдя рендера
 		onTaskEdit: PropTypes.func,
 		onTaskDelete: PropTypes.func,
+		updateTask: PropTypes.func, // из Redux
 	};
 
-	static defaultTypes = {
-		data: [],
-	};
+	// static defaultTypes = {
+	// 	data: [],
+	// };
 
 	constructor(props) {
 		super(props);
@@ -34,7 +37,8 @@ class MainList extends React.Component {
 		} catch (e) {
 			console.log("Couldn't init JSON from Local Storage: ", e.message);
 		}
-		this.setState({ taskList })
+		// this.setState({ taskList })
+		this.props.updateTask({taskList})
 
 	}
 
@@ -120,8 +124,8 @@ class MainList extends React.Component {
 				<span className="text-secondary">Список задач пуст</span>
 			</li>);
 
-		const list = this.props.data && this.props.data.length
-			? this.props.data.map(this.renderOneTask)
+		const list = this.props.taskList && this.props.taskList.length
+			? this.props.taskList.map(this.renderOneTask)
 			: emptyList;
 
 		return (
@@ -153,7 +157,13 @@ class MainList extends React.Component {
 const mapStateToProps = (store) => {
 		return {
 			taskList: [...store.app.taskList], //
-		}
+		};
 };
 
-	export default connect(mapStateToProps)(MainList);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateTask: payload => dispatch(appActions.updateTask(payload)),
+	};
+};
+
+	export default connect(mapStateToProps, mapDispatchToProps)(MainList);
