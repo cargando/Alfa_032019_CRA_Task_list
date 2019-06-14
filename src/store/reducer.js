@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import * as ACT from './actions';
+import { FORM_ADD } from "../lib/const";
 
 const initialState = { // GLOBAL STORE - первичная инициализация, т.е. как выглядит стор на этапе первого рендера прилаги
 	taskList: [], // можно добавлять сюда столько полей, сколько вам нужно для работы приложения
+	taskId: null, // id задачи (индекс в массиве), которая находится в режиме редактирования
+	formSate: FORM_ADD, // состояние формы ADD / EDIT
 };
 
 function rootReducer(store = initialState, action) {

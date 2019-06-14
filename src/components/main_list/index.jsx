@@ -15,6 +15,8 @@ class MainList extends React.Component {
 		onTaskEdit: PropTypes.func,
 		onTaskDelete: PropTypes.func,
 		updateTask: PropTypes.func, // из Redux
+		deleteTask: PropTypes.func, // из Redux
+		editTask: PropTypes.func, // из Redux
 	};
 
 	// static defaultTypes = {
@@ -63,14 +65,20 @@ class MainList extends React.Component {
 		e.persist();  // конвертировать событие реакт (Syntetic Event) в нормальное событие ДОМ (Event)
 		const { target } = e;
 		const taskId = target.parentElement.getAttribute("data-id");
-		this.props.onTaskEdit(e, taskId);
+		// this.props.onTaskEdit(e, taskId);
+		this.props.editTask({taskId});
+
 	};
 
 	handleDeleteTask = (e) => {
 		e.persist();  // конвертировать событие реакт (Syntetic Event) в нормальное событие ДОМ (Event)
 		const { target } = e;
 		const taskId = target.parentElement.getAttribute("data-id");
-		this.props.onTaskDelete(e, taskId);
+		// this.props.onTaskDelete(e, taskId);
+		this.props.deleteTask({
+			taskList: this.props.taskList,
+			deleteId: taskId,
+		});
 	};
 
 	renderOneTask = (item, index) => {
@@ -156,14 +164,16 @@ class MainList extends React.Component {
 
 const mapStateToProps = (store) => {
 		return {
-			taskList: [...store.app.taskList], //
+			taskList: store.app.taskList.slice(), //
 		};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		updateTask: payload => dispatch(appActions.updateTask(payload)),
+		deleteTask: payload => dispatch(appActions.deleteTask(payload)),
+		editTask: payload => dispatch(appActions.editTask(payload)),
 	};
 };
 
-	export default connect(mapStateToProps, mapDispatchToProps)(MainList);
+export default connect(mapStateToProps, mapDispatchToProps)(MainList);

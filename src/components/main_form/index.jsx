@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Card } from '../card';
 import { TextInput, Select, TextArea, CheckBox } from '../form';
 import { TASK_OPTIONS, FORM_ADD, FORM_EDIT } from "../../lib/const";
+import * as appActions from "../../store/action_creators";
 
-export default class MainForm extends React.Component {
+class MainForm extends React.Component {
 
 	static propTypes = {
 		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
-		taskForEdit: PropTypes.object, // номер таски, которую редактируют
+		taskForEdit: PropTypes.any, // номер таски, которую редактируют
 		onSaveData: PropTypes.func,
+		taskList: PropTypes.array, // из Redux
+		addTask: PropTypes.func, // из Redux
+		saveTask: PropTypes.func, // из Redux
 	};
 
 
@@ -25,9 +30,9 @@ export default class MainForm extends React.Component {
 
 	static getDerivedStateFromProps(nextProps, state) {
 
-		if (!state.propsFlag && nextProps.taskForEdit) {
+		if (!state.propsFlag && nextProps.taskForEdit !== null && nextProps.taskList.length) {
 			return {
-				data: nextProps.taskForEdit,
+				data: nextProps.taskList[nextProps.taskForEdit],
 				propsFlag: true,
 			}
 		}
@@ -49,9 +54,19 @@ export default class MainForm extends React.Component {
 	};
 
 	handleSaveData = (e) => {
-		if ( this.props.onSaveData(this.state.data) === true) {
-			this.setState({ data: {}});
+		// if ( this.props.onSaveData(this.state.data) === true) {
+		// 	this.setState({ data: {}});
+		// }
+		if (this.props.formSate === FORM_ADD) {
+			this.props.addTask(this.state.data);
+		} else {
+			this.props.saveTask({
+				taskList: this.props.taskList,
+				data: this.state.data,
+				id: this.props.taskForEdit,
+			});
 		}
+		this.setState({ data: {}});
 	};
 
 	render() {
@@ -135,3 +150,20 @@ export default class MainForm extends React.Component {
 
 	}
 }
+
+
+const mapStateToProps = (store) => {
+	return {
+		taskList: store.app.taskList.slice(), //
+		taskForEdit: store.app.taskId, //
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addTask: payload => dispatch(appActions.addTask(payload)),
+		saveTask: payload => dispatch(appActions.saveTask(payload)),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainForm);
