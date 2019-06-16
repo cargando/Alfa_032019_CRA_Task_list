@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as appActions from '../../store/action_creators';
 import { Card } from '../card';
 import Modal from "../modals/simple_modal";
 import ViewTaskModal from "../task/view_task_modal";
+import * as URL from '../../router/url';
 
 class MainList extends React.Component {
 
@@ -72,6 +74,24 @@ class MainList extends React.Component {
 		});
 	};
 
+	renderRouterLink = (tp, { taskName, index }) => {
+		if(tp) { // Router link
+			return (
+				<Link to={ `${ URL.URL_TASK_FORM }/${ index }` }>
+					{ taskName }
+				</Link>);
+		}	else { // old scool <a> tag
+			return (
+				<a
+					href="#"
+					onClick={ this.handleViewTask }
+					data-id={ index }
+				>
+					{ taskName }
+				</a>);
+		}
+	};
+
 	renderOneTask = (item, index) => {
 
 		return (
@@ -82,13 +102,12 @@ class MainList extends React.Component {
 						&nbsp;
 						</React.Fragment>)
 				}
-				<a
-					href="#"
-					onClick={ this.handleViewTask }
-					data-id={ index }
-				>
-					{ item.taskName }
-				</a>
+				{
+					this.renderRouterLink(true, {
+						index,
+						taskName: item.taskName
+					})
+				}
 				<br />
 				<span className="text-muted">
 					<small>

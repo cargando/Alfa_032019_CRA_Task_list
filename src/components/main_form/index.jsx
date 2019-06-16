@@ -54,7 +54,10 @@ class MainForm extends React.Component {
 
 	handleSaveData = (e) => {
 		if (this.props.formSate === FORM_ADD) {
-			this.props.addTask(this.state.data);
+			this.props.addTask({
+				taskList: this.props.taskList,
+				data: this.state.data,
+		});
 		} else {
 			this.props.saveTask({
 				taskList: this.props.taskList,

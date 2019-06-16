@@ -10,7 +10,6 @@ const initialState = { // GLOBAL STORE - первичная инициализа
 };
 
 function rootReducer(store = initialState, action) {
-	console.log("RDC: action", action)
 	switch (action.type) {
 		case ACT.DATA_TASK_EDIT:
 			return { ...store, ...action.payload }; // новый объект STORE (GLOBAL REDUX STORE)

@@ -1,6 +1,17 @@
 import { FORM_ADD, FORM_EDIT } from "../lib/const";
 import * as ACT from './actions';
 
+export function loadTaskList() {
+
+	let taskList = [];
+	try {
+		taskList = JSON.parse(localStorage.getItem("TASKS"));
+	} catch (e) {
+		console.log("Couldn't init JSON from Local Storage: ", e.message);
+	}
+	return { taskList };
+}
+
 export function editTask(payload) {
 	return {
 		type: ACT.DATA_TASK_EDIT,
@@ -30,7 +41,7 @@ export function updateTask(payload) {
 
 export function addTask(payload) {
 	const taskList = payload.taskList.slice();
-	taskList.push(payload);
+	taskList.push(payload.data);
 	localStorage.setItem("TASKS", JSON.stringify(taskList));
 
 	return {
