@@ -8,8 +8,8 @@ import { CalendarBody } from "./body";
 export class Calendar extends Component {
 	static propTypes = {
 		calendarDate: PropTypes.object, // объект момент, т.е. дата которой оперирует календарь
-		handleAdd: PropTypes.func, // метод добавления напоминания  в список
-		handleUpdateDate: PropTypes.func, // метод обновления даты
+		onCancel: PropTypes.func, // метод добавления напоминания  в список
+		onUpdateDate: PropTypes.func, // метод обновления даты
 	};
 
 	constructor(props, context) {
@@ -47,8 +47,12 @@ export class Calendar extends Component {
 		this.setState({ ...stateObj });
 	};
 
+	handleChooseDate = () => {
+		this.props.onUpdateDate(this.state.calendarDate)
+	};
+
 		render() { // , top: '38px'
-		console.log('CALENDAR PROPS = ', this.props);
+		// console.log('CALENDAR PROPS = ', this.props);
 			return (
 				<div id='calendar' className='micalendar' style={ { display: 'block' } }>
 					<div className='header_wrap'>
@@ -80,7 +84,9 @@ export class Calendar extends Component {
 						<CalendarBody
 							calendarDate={ this.state.calendarDate }
 							calendarChosen={ this.state.calendarChosen }
-							handleClickDate={ this.handleClickDate }
+							onClickDate={ this.handleClickDate }
+							onDblClickDate={ this.handleChooseDate }
+
 						/>
 						</tbody>
 					</table>
@@ -88,7 +94,7 @@ export class Calendar extends Component {
 						<div className='btn-group'>
 							<input
 								type='button'
-								onClick={ null  /*'hideCalendar(event)'*/ }
+								onClick={ this.handleChooseDate }
 								value='Вставить'
 				        className='btn btn-sm btn-outline-primary'
 							/>
@@ -96,7 +102,7 @@ export class Calendar extends Component {
 						<div className='btn-group'>
 							<input
 								type='button'
-								onClick={ null  /*'hideCalendar(event)'*/ }
+								onClick={ this.props.onCancel }
 								value='Закрыть'
 				        className='btn btn-sm btn-outline-secondary'
 							/>

@@ -8,13 +8,9 @@ export const MainTab = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-6">
-				<br />
-				<MainForm>
-					<p>This is children from Main Tab</p>
-				</MainForm>
+				<MainForm />
 			</div>
 			<div className="col-sm-6">
-				<br />
 				<MainList />
 			</div>
 		</div>

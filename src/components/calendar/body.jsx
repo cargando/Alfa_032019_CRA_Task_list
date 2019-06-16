@@ -7,19 +7,12 @@ import './calendar.css';
 
 export class CalendarBody extends Component {
 	static propTypes = {
-		// yearToOperate: PropTypes.number, // год, которым оперирует календарь
-		// monthToOperate: PropTypes.number, // месяц, которым оперирует календарь
 		calendarDate: PropTypes.object, // дата, которой оперирует календарь
 		calendarChosen: PropTypes.object, // дата, которой оперирует календарь
-		handleAdd: PropTypes.func, // метод добавления напоминания  в список
-		handleClickArrow: PropTypes.func, // кликнули по стрелкам (смена месяца),
-		handleClickDate: PropTypes.func, // метод родителя, чтобы поменять занчение в стейте
+		onClickDate: PropTypes.func,
+		onDblClickDate: PropTypes.func,
 	};
 
-/*	constructor(props, context) {
-		super(props, context);
-	}
-*/
 
 	compareDates = (dt1, dt2) => {
 		const obj = { // секунды, минуты, часы, дни
@@ -95,10 +88,12 @@ export class CalendarBody extends Component {
 				}
 				str_out.push(<CalendarCell
 					key={ `cell_${ j }_${ i }`}
-					handleClickCell={ ()=>{
-
-						console.log('Clicked DT = ', isChoosen, tmpCellDate,  tmpCellDate.isValid());
-						this.props.handleClickDate(tmpCellDate, true);
+					onClickCell={ () => {
+						//console.log('Clicked DT = ', isChoosen, tmpCellDate,  tmpCellDate.isValid());
+						this.props.onClickDate(tmpCellDate, true);
+					} }
+					onDblClickCell={ () => {
+						this.props.onDblClickDate(tmpCellDate)
 					} }
 					{ ...tmpCellObject }
 				/>);

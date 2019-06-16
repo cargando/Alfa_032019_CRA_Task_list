@@ -14,6 +14,7 @@ class App extends React.Component {
 				<div className="container">
 					<h1>CRA Task List</h1>
 					<Navigation />
+					<br /><br />
 					{
 						this.props.children
 					}

@@ -42,7 +42,8 @@ const Navigation = (props) => {
 		)
 	};
 
-	console.log("NAV = ", props)
+
+
 	return (
 		<nav>
 			<div className="nav nav-tabs">

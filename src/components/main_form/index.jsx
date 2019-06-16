@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment/moment';
 import { Card } from '../card';
-import { TextInput, Select, TextArea, CheckBox } from '../form';
 import { TASK_OPTIONS, FORM_ADD, FORM_EDIT } from "../../lib/const";
 import * as appActions from "../../store/action_creators";
+import {
+	TextInput,
+	Select,
+	TextArea,
+	CheckBox,
+	CalendarInput
+} from '../form';
 
 class MainForm extends React.Component {
 
@@ -48,6 +55,15 @@ class MainForm extends React.Component {
 			data: {
 				...prevState.data,
 				[name]: value,
+			}
+		}));
+	};
+
+	handleChangeCalendar = (value) => {
+		this.setState((prevState) => ({
+			data: {
+				...prevState.data,
+				taskDate: moment(value).format("DD-MM-YYYY"),
 			}
 		}));
 	};
@@ -105,6 +121,17 @@ class MainForm extends React.Component {
 					rows={ 4 }
 				/>
 
+				<CalendarInput
+					value={ this.state.data.taskDate || "" }
+					name="taskDate"
+					onChange={ this.handleChange }
+					handleUpdateDate={ this.handleChangeCalendar }
+					label="Date"
+					helper={ this.state.err.taskDate || "Когда напомнить" }
+					err={ !!this.state.err.taskDate }
+					mandatory
+				/>
+
 				<Select
 					value={ this.state.data.taskStatus || "" }
 					options={ TASK_OPTIONS }
@@ -115,6 +142,7 @@ class MainForm extends React.Component {
 					err={ !!this.state.err.taskStatus }
 				/>
 
+
 				<CheckBox
 					name="taskUrgent"
 					onChange={ this.handleChange }
@@ -124,9 +152,6 @@ class MainForm extends React.Component {
 					err={ !!this.state.err.taskUrgent }
 				/>
 
-				{
-					this.props.children // компоненты "дети", которые были переданы внутрь <MainForm>....</MainForm>
-				}
 				<div className="row">
 					<div className="col-sm-6">
 						<button
