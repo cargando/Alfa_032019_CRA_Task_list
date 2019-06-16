@@ -1,9 +1,23 @@
+import { FORM_ADD, FORM_EDIT } from "../lib/const";
 import * as ACT from './actions';
 
 export function editTask(payload) {
 	return {
 		type: ACT.DATA_TASK_EDIT,
-		payload,
+		payload: {
+			...payload,
+			formSate: FORM_EDIT,
+		},
+	};
+}
+
+export function resetForm() {
+	return {
+		type: ACT.DATA_TASK_FORM_RESET,
+		payload: {
+			taskForEdit: null,
+			formSate: FORM_ADD,
+		},
 	};
 }
 
@@ -43,6 +57,7 @@ export function saveTask(payload) {
 // { taskList, id}
 export function deleteTask(payload) {
 	const taskList = payload.taskList.slice();
+	// const taskList = payload.taskList.filter((item, index)=>{ if (item===payload.deleteId) return index});
 	taskList.splice(payload.deleteId, 1);
 	localStorage.setItem("TASKS", JSON.stringify(taskList));
 	return {

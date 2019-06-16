@@ -3,32 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as appActions from '../../store/action_creators';
 import { Card } from '../card';
-import {MainTab} from "../../scenes/main";
 import Modal from "../modals/simple_modal";
 import ViewTaskModal from "../task/view_task_modal";
 
 class MainList extends React.Component {
 
 	static propTypes = {
-		data: PropTypes.array, // список задач длдя рендера
 		taskList: PropTypes.array, // список задач длдя рендера
-		onTaskEdit: PropTypes.func,
-		onTaskDelete: PropTypes.func,
 		updateTask: PropTypes.func, // из Redux
 		deleteTask: PropTypes.func, // из Redux
 		editTask: PropTypes.func, // из Redux
 	};
-
-	// static defaultTypes = {
-	// 	data: [],
-	// };
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			modalFlag: false,
 			taskId: null,
-		}
+		};
 		console.log("MainList =", this.props)
 	}
 
@@ -64,9 +56,8 @@ class MainList extends React.Component {
 	handleEditTask = (e) => {
 		e.persist();  // конвертировать событие реакт (Syntetic Event) в нормальное событие ДОМ (Event)
 		const { target } = e;
-		const taskId = target.parentElement.getAttribute("data-id");
-		// this.props.onTaskEdit(e, taskId);
-		this.props.editTask({taskId});
+		const taskForEdit = target.parentElement.getAttribute("data-id");
+		this.props.editTask({taskForEdit});
 
 	};
 
@@ -154,7 +145,7 @@ class MainList extends React.Component {
 					display={ this.state.modalFlag }
 				>
 					<ViewTaskModal
-						data={ this.props.data ? this.props.data[(this.state.taskId)] : null }
+						data={ this.props.taskList ? this.props.taskList[(this.state.taskId)] : null }
 					/>
 				</Modal>
 			</Card>);
@@ -173,6 +164,7 @@ const mapDispatchToProps = (dispatch) => {
 		updateTask: payload => dispatch(appActions.updateTask(payload)),
 		deleteTask: payload => dispatch(appActions.deleteTask(payload)),
 		editTask: payload => dispatch(appActions.editTask(payload)),
+
 	};
 };
 

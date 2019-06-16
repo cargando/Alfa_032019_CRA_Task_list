@@ -5,12 +5,12 @@ import { FORM_ADD } from "../lib/const";
 
 const initialState = { // GLOBAL STORE - первичная инициализация, т.е. как выглядит стор на этапе первого рендера прилаги
 	taskList: [], // можно добавлять сюда столько полей, сколько вам нужно для работы приложения
-	taskId: null, // id задачи (индекс в массиве), которая находится в режиме редактирования
+	taskForEdit: null, // id задачи (индекс в массиве), которая находится в режиме редактирования
 	formSate: FORM_ADD, // состояние формы ADD / EDIT
 };
 
 function rootReducer(store = initialState, action) {
-	console.log("action", action)
+	console.log("RDC: action", action)
 	switch (action.type) {
 		case ACT.DATA_TASK_EDIT:
 			return { ...store, ...action.payload }; // новый объект STORE (GLOBAL REDUX STORE)
@@ -22,6 +22,9 @@ function rootReducer(store = initialState, action) {
 			return { ...store, ...action.payload }; // новый объект STORE (GLOBAL REDUX STORE)
 
 		case ACT.DATA_TASK_UPDATE:
+			return { ...store, ...action.payload }; // новый объект STORE (GLOBAL REDUX STORE)
+
+		case ACT.DATA_TASK_FORM_RESET:
 			return { ...store, ...action.payload }; // новый объект STORE (GLOBAL REDUX STORE)
 
 		default:

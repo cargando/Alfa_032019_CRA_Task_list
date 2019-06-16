@@ -9,12 +9,12 @@ import * as appActions from "../../store/action_creators";
 class MainForm extends React.Component {
 
 	static propTypes = {
-		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
+		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску) из Redux
 		taskForEdit: PropTypes.any, // номер таски, которую редактируют
-		onSaveData: PropTypes.func,
 		taskList: PropTypes.array, // из Redux
 		addTask: PropTypes.func, // из Redux
 		saveTask: PropTypes.func, // из Redux
+		resetForm: PropTypes.func, // из Redux
 	};
 
 
@@ -29,7 +29,7 @@ class MainForm extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, state) {
-
+		console.log("getDerivedStateFromProps", nextProps)
 		if (!state.propsFlag && nextProps.taskForEdit !== null && nextProps.taskList.length) {
 			return {
 				data: nextProps.taskList[nextProps.taskForEdit],
@@ -54,9 +54,6 @@ class MainForm extends React.Component {
 	};
 
 	handleSaveData = (e) => {
-		// if ( this.props.onSaveData(this.state.data) === true) {
-		// 	this.setState({ data: {}});
-		// }
 		if (this.props.formSate === FORM_ADD) {
 			this.props.addTask(this.state.data);
 		} else {
@@ -66,7 +63,15 @@ class MainForm extends React.Component {
 				id: this.props.taskForEdit,
 			});
 		}
-		this.setState({ data: {}});
+		this.handleResetData();
+	};
+
+	handleResetData = () => {
+		this.props.resetForm();
+		this.setState({
+			data: {},
+			propsFlag: false,
+		});
 	};
 
 	render() {
@@ -77,7 +82,7 @@ class MainForm extends React.Component {
 					{
 						this.props.formSate === FORM_ADD
 							? "Add new task"
-							: `Edit task ${ this.props.taskId || "" }`
+							: `Edit task ${ this.props.taskForEdit || "" }`
 					}</h4>
 				<TextInput
 					value={ this.state.data.taskName || "" }
@@ -155,7 +160,8 @@ class MainForm extends React.Component {
 const mapStateToProps = (store) => {
 	return {
 		taskList: store.app.taskList.slice(), //
-		taskForEdit: store.app.taskId, //
+		taskForEdit: store.app.taskForEdit, //
+		formSate: store.app.formSate, //
 	};
 };
 
@@ -163,6 +169,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		addTask: payload => dispatch(appActions.addTask(payload)),
 		saveTask: payload => dispatch(appActions.saveTask(payload)),
+		resetForm: payload => dispatch(appActions.resetForm(payload)),
 	};
 };
 
