@@ -1,47 +1,41 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+import { NAV_ITEMS, NAV_MAIN } from '../../lib/nav_data';
+
 
 const renderNavItem = (item) => {
 	const {
 		title,
-		onClick,
 		isActive = false,
 		name,
+		url,
 	} = item;
 
 	return (
-		<a
+		<Link
+			to={ url }
 			role="button"
 			key={ name }
-			onClick={ onClick }
 			className={ `nav-item nav-link ${ isActive ? "active" : "" }` }
-			data-name={ name }
-			style={ { cursor: "pointer" } }
 		>
 			{ title }
-		</a>
+		</Link>
 	)
 };
 
 const Navigation = (props) => {
-	const { items = [] } = props;
-
+	console.log("NAV = ", props)
 	return (
 		<nav>
 			<div className="nav nav-tabs">
 				{
-					items.map(renderNavItem)
+					NAV_ITEMS.map(renderNavItem)
 				}
 			</div>
 		</nav>);
 };
 
-Navigation.propTypes = {
-	items: PropTypes.array,
-};
 
-Navigation.defaulTypes = {
-	items: [],
-};
-
-export default React.memo(Navigation);
+export default React.memo(withRouter(Navigation));

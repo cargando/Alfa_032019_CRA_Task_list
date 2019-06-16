@@ -6,13 +6,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import configureStore, { history }   from './store/configure_store';
+import theRoutes from './router/routes';
 
 const store = configureStore();
 
 ReactDOM.render((
 	<Provider store={ store }>
 		<ConnectedRouter history={ history }>
-			<App />
+			<App>
+				{
+					theRoutes
+				}
+			</App>
 		</ConnectedRouter>
 	</Provider>), document.getElementById('root'));
 

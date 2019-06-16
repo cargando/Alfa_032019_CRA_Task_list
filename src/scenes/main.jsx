@@ -22,3 +22,5 @@ export const MainTab = (props) => {
 MainTab.propTypes = {
 	children: PropTypes.object, //
 };
+
+export default React.memo(MainTab);

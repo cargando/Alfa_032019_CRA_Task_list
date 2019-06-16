@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import {MainTab} from "./main";
 
 
-const TaskDnd = (props) => {
+
+const Page404 = (props) => {
 
 	return (
 		<div className="row">
 			<div className="col-md-12">
-				<h2>Task statuses</h2>
+				<h1>404</h1>
+				<h2>Sorry, page not found</h2>
 				{
 					props.children
 				}
@@ -17,8 +18,8 @@ const TaskDnd = (props) => {
 	)
 };
 
-TaskDnd.propTypes = {
+Page404.propTypes = {
 	children: PropTypes.object, //
 };
 
-export default React.memo(TaskDnd);
+export default React.memo(Page404);

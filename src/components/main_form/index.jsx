@@ -10,7 +10,7 @@ class MainForm extends React.Component {
 
 	static propTypes = {
 		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску) из Redux
-		taskForEdit: PropTypes.any, // номер таски, которую редактируют
+		taskForEdit: PropTypes.any, // номер таски, которую редактируют из Redux
 		taskList: PropTypes.array, // из Redux
 		addTask: PropTypes.func, // из Redux
 		saveTask: PropTypes.func, // из Redux
@@ -29,7 +29,6 @@ class MainForm extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, state) {
-		console.log("getDerivedStateFromProps", nextProps)
 		if (!state.propsFlag && nextProps.taskForEdit !== null && nextProps.taskList.length) {
 			return {
 				data: nextProps.taskList[nextProps.taskForEdit],
