@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense }  from 'react';
 import ReactDOM from 'react-dom';
 import { ConnectedRouter } from 'connected-react-router'
 import { Provider } from 'react-redux';
@@ -13,11 +13,13 @@ const store = configureStore();
 ReactDOM.render((
 	<Provider store={ store }>
 		<ConnectedRouter history={ history }>
-			<App>
-				{
-					theRoutes
-				}
-			</App>
+			<Suspense fallback={<div>Loading...</div>}>
+				<App>
+					{
+						theRoutes
+					}
+				</App>
+			</Suspense>
 		</ConnectedRouter>
 	</Provider>), document.getElementById('root'));
 

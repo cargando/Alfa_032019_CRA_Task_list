@@ -3,10 +3,13 @@ import { Switch, Route } from 'react-router-dom'; //  , Switch
 import * as URL from './url';
 
 import Home from '../scenes/home';
-import TaskForm from '../scenes/main';
-import TaskDnd from '../scenes/dnd';
-import Page404 from '../scenes/404';
+// import TaskForm from '../scenes/main';
+// import TaskDnd from '../scenes/dnd';
+// import Page404 from '../scenes/404';
 
+const TaskForm = lazy(() => import('../scenes/main'));
+const TaskDnd = lazy(() => import('../scenes/dnd'));
+const Page404 = lazy(() => import('../scenes/404'));
 
 
 export default (
