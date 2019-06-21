@@ -6,11 +6,11 @@ const DndColumn = (props, ref) => {
 
 	return (
 		<div className='col-sm-4'>
-			<div id='todoListCard' className='card'>
+			<div ref={ ref } data-name={ props.name } className='card'>
 				<div className='card-body card-body-dnd'>
 					<h3>{ props.title }</h3>
 					<hr color={ props.color} />
-						<ul ref={ ref } className='list-group'>
+						<ul className='list-group'>
 							{
 								props.children
 							}
@@ -22,6 +22,7 @@ const DndColumn = (props, ref) => {
 
 DndColumn.propTypes = {
 	title: PropTypes.string,
+	name: PropTypes.string, // TODO, IN_PROGRESS, DONE
 	children: PropTypes.object,
 	color: PropTypes.string,
 };

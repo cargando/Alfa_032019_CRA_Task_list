@@ -33,6 +33,7 @@ export function resetForm() {
 }
 
 export function updateTask(payload) {
+	localStorage.setItem("TASKS", JSON.stringify(payload.taskList));
 	return {
 		type: ACT.DATA_TASK_UPDATE,
 		payload,

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "connected-react-router": "^6.4.0",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

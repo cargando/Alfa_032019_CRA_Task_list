@@ -15,7 +15,7 @@ const DndItem = (props) => {
 	return (
 		<li className="list-group-item dragable-task" draggable="true">
 			{
-				taskUrgent && (<React.Fragment><i class="text-danger fa fa-exclamation-triangle"></i> &nbsp;</React.Fragment>)
+				taskUrgent && (<React.Fragment><i className="text-danger fa fa-exclamation-triangle"></i> &nbsp;</React.Fragment>)
 			}
 			<a href="#" draggable="false" onClick={ handleClick } data-id={ id }>{ taskName }</a>
 			<br />
