@@ -41,7 +41,7 @@ class TaskDnd extends React.Component {
 		this.transferTaskID = null;
 		this.state = {
 			from: null,
-
+			id: null,
 		}
 	}
 
@@ -110,6 +110,7 @@ class TaskDnd extends React.Component {
 			todoListCard.classList.add("active-dnd");
 			doneListCard.classList.add("active-dnd");
 			this.setState({ from: IN_PROGRESS});
+
 		} else if(parentId.includes(DONE)) {
 			doneListCard.classList.add("inactive-dnd");
 			todoListCard.classList.add("active-dnd");
@@ -133,14 +134,15 @@ class TaskDnd extends React.Component {
 		if(cardContainer.includes(TODO) && taskList[optionDataId].taskStatus !== TODO) {
 			taskList[optionDataId].taskStatus = TODO;
 			this.props.updateTask({taskList});
+
 		} else if(cardContainer.includes(IN_PROGRESS) && taskList[optionDataId].taskStatus !== IN_PROGRESS) {
 			taskList[optionDataId].taskStatus = IN_PROGRESS;
 			this.props.updateTask({taskList});
+
 		} else if(cardContainer.includes(DONE) && taskList[optionDataId].taskStatus !== DONE) {
 			taskList[optionDataId].taskStatus = DONE;
 			this.props.updateTask({taskList});
 		}
-		this.transferTaskID = null;
 		this.handleResetCardBlock();
 	};
 

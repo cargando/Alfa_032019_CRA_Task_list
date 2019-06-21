@@ -45,6 +45,36 @@ class MainForm extends React.Component {
 		return null;
 	};
 
+	validateData = () => {
+		const err = {};
+		const msFields = Object.keys(this.state.data);
+		if (!msFields.length) {
+			this.setState({ err: {
+					"taskName": "Это поле обязательно для ввода",
+					"taskDate": "Это поле обязательно для ввода",
+				}
+			});
+			return false;
+		}
+		console.log("ERR st = ", );
+		Object.keys(this.state.data).forEach((item, index) => {
+			const val = this.state.data[item];
+			console.log("ERR inside = ", item, val.length);
+			if(item === "taskName" && val && !val.length) {
+				err[item] = "Это поле обязательно для ввода";
+			}
+			if(item === "taskDate" && val && !val.length) {
+				err[item] = "Это поле обязательно для ввода";
+			}
+		});
+		console.log("ERR = ", err);
+		this.setState({err});
+		if(Object.keys(err).length) {
+			return false;
+		}
+		return true;
+	};
+
 	handleChange = (event) => {
 		const { target } = event;
 		const { name } = target;
@@ -69,6 +99,9 @@ class MainForm extends React.Component {
 	};
 
 	handleSaveData = (e) => {
+		if (!this.validateData()) {
+			return null;
+		}
 		if (this.props.formSate === FORM_ADD) {
 			this.props.addTask({
 				taskList: this.props.taskList,
