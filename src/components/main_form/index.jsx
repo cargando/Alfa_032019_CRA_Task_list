@@ -56,7 +56,7 @@ class MainForm extends React.Component {
 			});
 			return false;
 		}
-		console.log("ERR st = ", );
+		// console.log("ERR st = ", );
 		Object.keys(this.state.data).forEach((item, index) => {
 			const val = this.state.data[item];
 			console.log("ERR inside = ", item, val.length);
