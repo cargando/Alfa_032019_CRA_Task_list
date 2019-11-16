@@ -1,6 +1,8 @@
 import { FORM_ADD, FORM_EDIT } from "../lib/const";
 import * as ACT from './actions';
 
+
+
 export function loadTaskList() {
 
 	let taskList = [];

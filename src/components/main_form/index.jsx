@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment/moment';
 import { Card } from '../card';
-import { TASK_OPTIONS, FORM_ADD, FORM_EDIT } from "../../lib/const";
+import { TASK_OPTIONS, FORM_ADD, TODO, FORM_EDIT } from "../../lib/const";
 import * as appActions from "../../store/action_creators";
 import {
 	TextInput,
@@ -102,6 +102,10 @@ class MainForm extends React.Component {
 		if (!this.validateData()) {
 			return null;
 		}
+		const { data } = this.state
+		if (!data.taskStatus) {
+			data.taskStatus = TODO;
+		}
 		if (this.props.formSate === FORM_ADD) {
 			this.props.addTask({
 				taskList: this.props.taskList,
@@ -170,7 +174,7 @@ class MainForm extends React.Component {
 					options={ TASK_OPTIONS }
 					name="taskStatus"
 					onChange={ this.handleChange }
-					label="Task name"
+					label="Task status"
 					helper={ this.state.err.taskStatus || "Выберите статус задачи" }
 					err={ !!this.state.err.taskStatus }
 				/>
@@ -219,7 +223,7 @@ class MainForm extends React.Component {
 
 const mapStateToProps = (store) => {
 	return {
-		taskList: store.app.taskList.slice(), //
+		taskList: store.app.taskList ? store.app.taskList.slice() : [], //
 		taskForEdit: store.app.taskForEdit, //
 		formSate: store.app.formSate, //
 	};

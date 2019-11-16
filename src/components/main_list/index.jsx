@@ -11,7 +11,7 @@ import * as URL from '../../router/url';
 class MainList extends React.Component {
 
 	static propTypes = {
-		taskList: PropTypes.array, // список задач длдя рендера
+		taskList: PropTypes.array, // список задач длдя рендера из Redux
 		updateTask: PropTypes.func, // из Redux
 		deleteTask: PropTypes.func, // из Redux
 		editTask: PropTypes.func, // из Redux
@@ -174,7 +174,7 @@ class MainList extends React.Component {
 
 const mapStateToProps = (store) => {
 		return {
-			taskList: store.app.taskList.slice(), //
+			taskList: store.app.taskList ? store.app.taskList.slice() : [], //
 		};
 };
 

@@ -76,8 +76,9 @@ class TaskDnd extends React.Component {
 		if (!this.props.taskList || !this.props.taskList.length) {
 			return null;
 		}
+		console.log("STATUS", status)
+		if (!status) return null;
 		return this.props.taskList.map( (item, index) => {
-
 			return status.toLocaleUpperCase() === item.taskStatus.toLocaleUpperCase() ? (
 				<DndItem
 					key={ `${ status }_${ index }` }
@@ -195,6 +196,7 @@ class TaskDnd extends React.Component {
 
 				{
 					this.columns.map((item, index) => {
+						console.log("RND = ", item)
 						return (
 							<DndColumn
 								key={ item.id }

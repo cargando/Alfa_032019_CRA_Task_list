@@ -11,7 +11,7 @@ export const MainTab = (props) => {
 				<MainForm />
 			</div>
 			<div className="col-sm-6">
-				<MainList />
+				<MainList  />
 			</div>
 		</div>
 	);
